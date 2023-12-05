@@ -1,12 +1,12 @@
---- Criação do ambiente do 'ODS' e 'DW'
+--- Cria??o do ambiente do 'ODS' e 'DW'
 
--- Criação do banco 'ODS' (stage area)
+-- Cria??o do banco 'ODS' (stage area)
 
 USE master;
 CREATE DATABASE ODS;
 
 
--- Criação do banco 'DW'
+-- Cria??o do banco 'DW'
 
 USE master;
 CREATE DATABASE DW;
@@ -24,7 +24,7 @@ SELECT *
 FROM tb_execucao_financeira;
 
 
---- Duplicando a tabela 'tb_execução_financeira' no 'ODS' para realizar os tratamentos
+--- Duplicando a tabela 'tb_execu??o_financeira' no 'ODS' para realizar os tratamentos
 
 USE ODS;
 
@@ -36,7 +36,7 @@ FROM tb_execucao_financeira;
 
 --- Limpeza Inicial da base de dados tb_exec_fin_tratada
 
--- 1. Remover as colunas 'vlr_liquidado' e 'dth_liquidacao' que só possuem valores nulos
+-- 1. Remover as colunas 'vlr_liquidado' e 'dth_liquidacao' que s? possuem valores nulos
 
 USE ODS;
 ALTER TABLE tb_exec_fin_tratada DROP COLUMN vlr_liquidado; -- Remove a coluna vlr_liquidado
@@ -46,84 +46,132 @@ ALTER TABLE tb_exec_fin_tratada DROP COLUMN dth_liquidacao; -- Remove a coluna d
 
 -- 2.1 Ajustar a coluna 'num_ano' de 'text' para 'int'
 
+
+
+SELECT DISTINCT CONVERT (INT,CONVERT(VARCHAR, num_ano))  FROM tb_exec_fin_tratada
+
+--TRANSFORMAR DE TEXTO PARA VARCHAR E DE VARCHAR PARA INTEIRO
+
+
+
+
 USE ODS;
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN num_ano INT;
 
--- 2.2 Ajustar a coluna 'cod_ne' de 'text' para 'int'
 
+
+
+
+
+
+
+
+
+-- 2.2 Ajustar a coluna 'cod_ne' de 'text' para 'int'  TABELA AINDA NÃƒO CONVERTIDA
 USE ODS;
-ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_ne INT;
+
+SELECT cod_ne FROM tb_exec_fin_tratada
+
+SELECT
+    CONVERT(INT, SUBSTRING(cod_ne, PATINDEX('%[0-9]%', cod_ne), LEN(cod_ne)))
+FROM
+    tb_exec_fin_tratada;
+
 
 -- 2.3 Ajustar a coluna 'codigo_orgao' de 'text' para 'int'
 
 USE ODS;
-ALTER TABLE tb_exec_fin_tratada ALTER COLUMN codigo_orgao INT;
+SELECT DISTINCT CONVERT (INT,CONVERT(VARCHAR, codigo_orgao))  FROM tb_exec_fin_tratada
 
 -- 2.4 Ajustar a coluna 'cod_credor' de 'text' para 'int'
 
 USE ODS;
+
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_credor INT;
+SELECT DISTINCT CONVERT (INT,CONVERT(VARCHAR, cod_credor))  FROM tb_exec_fin_tratada
+
+
+
+SELECT cod_credor FROM tb_exec_fin_tratada;
+
+
 
 -- 2.5 Ajustar a coluna 'cod_fonte' de 'text' para 'int'
 
 USE ODS;
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_fonte INT;
+SELECT DISTINCT CONVERT (INT,CONVERT(VARCHAR, cod_fonte))  FROM tb_exec_fin_tratada;
 
 -- 2.6 Ajustar a coluna 'cod_funcao' de 'text' para 'int'
 
 USE ODS;
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_funcao INT;
+SELECT DISTINCT CONVERT (INT,CONVERT(VARCHAR, cod_funcao))  FROM tb_exec_fin_tratada;
 
 -- 2.7 Ajustar a coluna 'cod_item' de 'text' para 'int'
 
 USE ODS;
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_item INT;
+SELECT DISTINCT CONVERT (INT,CONVERT(VARCHAR, cod_item))  FROM tb_exec_fin_tratada;
 
 -- 2.8 Ajustar a coluna 'cod_item_elemento' de 'text' para 'int'
 
 USE ODS;
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_item_elemento INT;
+SELECT DISTINCT CONVERT (INT,CONVERT(VARCHAR, cod_item_elemento))  FROM tb_exec_fin_tratada;
+
+
+
 
 -- 2.9 Ajustar a coluna 'cod_item_categoria' de 'text' para 'int'
 
 USE ODS;
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_item_categoria INT;
+SELECT DISTINCT CONVERT (INT,CONVERT(VARCHAR, cod_item_categoria))  FROM tb_exec_fin_tratada;
 
 -- 2.10 Ajustar a coluna 'cod_item_grupo' de 'text' para 'int'
 
 USE ODS;
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_item_grupo INT;
+SELECT DISTINCT CONVERT (INT,CONVERT(VARCHAR, cod_item_grupo))  FROM tb_exec_fin_tratada;
 
 -- 2.11 Ajustar a coluna 'cod_item_modalidade' de 'text' para 'int'
 
 USE ODS;
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_item_modalidade INT;
+SELECT DISTINCT CONVERT (INT,CONVERT(VARCHAR, cod_item_modalidade))  FROM tb_exec_fin_tratada;
+
 
 -- 2.12 Ajustar a coluna 'cod_programa' de 'text' para 'int'
 
 USE ODS;
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_programa INT;
+SELECT DISTINCT CONVERT (INT,CONVERT(VARCHAR, cod_programa))  FROM tb_exec_fin_tratada;
+
 
 -- 2.13 Ajustar a coluna 'cod_subfuncao' de 'text' para 'int'
 
 USE ODS;
 ALTER TABLE tb_execucao_financeira ALTER COLUMN cod_subfuncao INT;
+SELECT DISTINCT CONVERT (INT,CONVERT(VARCHAR, cod_subfuncao))  FROM tb_exec_fin_tratada;
 
 -- 2.14 Ajustar a coluna 'num_sic' de 'text' para 'int'
 
 USE ODS;
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN num_sic INT;
+SELECT DISTINCT CONVERT (INT,CONVERT(VARCHAR, num_sic))  FROM tb_exec_fin_tratada;
 
 -- 2.15 Ajustar a coluna 'num_ano_np' de 'text' para 'int'
 
 USE ODS;
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN num_ano_np INT;
+SELECT DISTINCT CONVERT (INT,CONVERT(VARCHAR, num_ano_np))  FROM tb_exec_fin_tratada;
 
 
 
 --- Criando o 'DW'
 
--- Dimensão Orgão
+-- Dimens?o Org?o
 
 -- Criar a tabela dim_Orgao
 
@@ -135,15 +183,24 @@ SELECT codigo_orgao AS codigo
   FROM ODS..tb_exec_fin_tratada;
 
 
--- Adicionar a chave primária à tabela dim_Orgao
+-- Adicionar a chave prim?ria ? tabela dim_Orgao
 
-USE DW;
+USE [DW]
+GO
 
+SELECT [codigo]
+      ,[descricao]
+  FROM [dbo].[dim_Orgao]
+
+GO
+
+SELECT codigo FROM dim_Orgao;
+ --VERIFICAR
 ALTER TABLE dim_Orgao
 ADD CONSTRAINT PK_dim_Orgao PRIMARY KEY (codigo);
 
 
--- Dimensão Credor
+-- Dimens?o Credor
 
 USE DW;
 
@@ -153,7 +210,7 @@ SELECT cod_credor AS codigo
   FROM ODS..tb_exec_fin_tratada;
 
 
--- Adicionar a chave primária à tabela dim_Credor
+-- Adicionar a chave prim?ria ? tabela dim_Credor
 
 USE DW;
 
@@ -161,7 +218,7 @@ ALTER TABLE dim_Credor
 ADD CONSTRAINT PK_dim_Credor PRIMARY KEY (codigo);
 
 
--- Dimensão Fonte
+-- Dimens?o Fonte
 
 USE DW;
 
@@ -171,7 +228,7 @@ SELECT cod_fonte AS codigo
   FROM ODS..tb_exec_fin_tratada;
 
 
--- Adicionar a chave primária à tabela dim_Fonte
+-- Adicionar a chave prim?ria ? tabela dim_Fonte
 
 USE DW;
 
@@ -179,7 +236,7 @@ ALTER TABLE dim_Fonte
 ADD CONSTRAINT PK_dim_Fonte PRIMARY KEY (codigo);
 
 
--- Dimensão Função
+-- Dimens?o Fun??o
 
 USE DW;
 
@@ -189,7 +246,7 @@ SELECT cod_funcao AS codigo
   FROM ODS..tb_exec_fin_tratada;
 
 
--- Adicionar a chave primária à tabela dim_Funcao
+-- Adicionar a chave prim?ria ? tabela dim_Funcao
 
 USE DW;
 
@@ -197,7 +254,7 @@ ALTER TABLE dim_Funcao
 ADD CONSTRAINT PK_dim_Funcao PRIMARY KEY (codigo);
 
 
--- Dimensão Item
+-- Dimens?o Item
 
 USE DW;
 
@@ -207,7 +264,7 @@ SELECT cod_item AS codigo
   FROM ODS..tb_exec_fin_tratada;
 
 
--- Adicionar a chave primária à tabela dim_Item
+-- Adicionar a chave prim?ria ? tabela dim_Item
 
 USE DW;
 
@@ -215,7 +272,7 @@ ALTER TABLE dim_Item
 ADD CONSTRAINT PK_dim_Item PRIMARY KEY (codigo);
 
 
--- Dimensão Item Elemento
+-- Dimens?o Item Elemento
 
 USE DW;
 
@@ -225,7 +282,7 @@ SELECT cod_item_elemento AS codigo
   FROM ODS..tb_exec_fin_tratada;
 
 
--- Adicionar a chave primária à tabela dim_ItemElemento
+-- Adicionar a chave prim?ria ? tabela dim_ItemElemento
 
 USE DW;
 
@@ -233,7 +290,7 @@ ALTER TABLE dim_ItemElemento
 ADD CONSTRAINT PK_dim_ItemElemento PRIMARY KEY (codigo);
 
 
--- Dimensão Item Categoria
+-- Dimens?o Item Categoria
 
 USE DW;
 
@@ -243,7 +300,7 @@ SELECT cod_item_categoria AS codigo
   FROM ODS..tb_exec_fin_tratada;
 
 
--- Adicionar a chave primária à tabela dim_ItemCategoria
+-- Adicionar a chave prim?ria ? tabela dim_ItemCategoria
 
 USE DW;
 
@@ -251,7 +308,7 @@ ALTER TABLE dim_ItemCategoria
 ADD CONSTRAINT PK_dim_ItemCategoria PRIMARY KEY (codigo);
 
 
--- Dimensão Item Grupo
+-- Dimens?o Item Grupo
 
 USE DW;
 
@@ -261,7 +318,7 @@ SELECT cod_item_grupo AS codigo
   FROM ODS..tb_exec_fin_tratada;
 
 
--- Adicionar a chave primária à tabela dim_ItemGrupo
+-- Adicionar a chave prim?ria ? tabela dim_ItemGrupo
 
 USE DW;
 
@@ -269,7 +326,7 @@ ALTER TABLE dim_ItemGrupo
 ADD CONSTRAINT PK_dim_ItemGrupo PRIMARY KEY (codigo);
 
 
--- Dimensão Item Modalidade
+-- Dimens?o Item Modalidade
 
 USE DW;
 
@@ -279,7 +336,7 @@ SELECT cod_item_modalidade AS codigo
   FROM ODS..tb_exec_fin_tratada;
 
 
--- Adicionar a chave primária à tabela dim_ItemModalidade
+-- Adicionar a chave prim?ria ? tabela dim_ItemModalidade
 
 USE DW;
 
@@ -287,7 +344,7 @@ ALTER TABLE dim_ItemModalidade
 ADD CONSTRAINT PK_dim_ItemModalidade PRIMARY KEY (codigo);
 
 
--- Dimensão Programa
+-- Dimens?o Programa
 
 USE DW;
 
@@ -296,7 +353,7 @@ SELECT cod_programa AS codigo
 	INTO dim_Programa
   FROM ODS..tb_exec_fin_tratada;
 
--- Adicionar a chave primária à tabela dim_Programa
+-- Adicionar a chave prim?ria ? tabela dim_Programa
 
 USE DW;
 
@@ -304,7 +361,7 @@ ALTER TABLE dim_Programa
 ADD CONSTRAINT PK_dim_Programa PRIMARY KEY (codigo);
 
 
--- Dimensão Subfuncao
+-- Dimens?o Subfuncao
 
 USE DW;
 
@@ -313,7 +370,7 @@ SELECT cod_subfuncao AS codigo
 	INTO dim_Subfuncao
   FROM ODS..tb_exec_fin_tratada;
 
--- Adicionar a chave primária à tabela dim_Programa
+-- Adicionar a chave prim?ria ? tabela dim_Programa
 
 USE DW;
 
@@ -353,7 +410,7 @@ SELECT
   FROM ODS..tb_exec_fin_tratada;
 
 
--- Adicionar a chave primária à tabela fato_execucao_financeira
+-- Adicionar a chave prim?ria ? tabela fato_execucao_financeira
 
 USE DW;
 
@@ -397,9 +454,9 @@ ALTER TABLE fato_execucao_financeira
 ADD FOREIGN KEY (cod_subfuncao) REFERENCES dim_Subfuncao(codigo);
 
 
--- Dimensão Calendário
+-- Dimens?o Calend?rio
 
---- Criar a tabela dimensão calendário
+--- Criar a tabela dimens?o calend?rio
 
 CREATE TABLE Dim_Calendario (
     id_data INT PRIMARY KEY,
@@ -456,9 +513,9 @@ END;
 -- Preencher feriados
 -- Os feriados nacionais foram retirados do site https://www.anbima.com.br/feriados/
 
--- Atualização dos feriados de 2019
+-- Atualiza??o dos feriados de 2019
 UPDATE Dim_Calendario
-SET feriados = 'Confraternização Universal', num_feriados = 1
+SET feriados = 'Confraterniza??o Universal', num_feriados = 1
 WHERE data = '2019-01-01';
 
 UPDATE Dim_Calendario
@@ -466,7 +523,7 @@ SET feriados = 'Carnaval', num_feriados = 1
 WHERE data IN ('2019-03-04', '2019-03-05');
 
 UPDATE Dim_Calendario
-SET feriados = 'Paixão de Cristo', num_feriados = 1
+SET feriados = 'Paix?o de Cristo', num_feriados = 1
 WHERE data = '2019-04-19';
 
 UPDATE Dim_Calendario
@@ -482,7 +539,7 @@ SET feriados = 'Corpus Christi', num_feriados = 1
 WHERE data = '2019-06-20';
 
 UPDATE Dim_Calendario
-SET feriados = 'Independência do Brasil', num_feriados = 1
+SET feriados = 'Independ?ncia do Brasil', num_feriados = 1
 WHERE data = '2019-09-07';
 
 UPDATE Dim_Calendario
@@ -494,17 +551,17 @@ SET feriados = 'Finados', num_feriados = 1
 WHERE data = '2019-11-02';
 
 UPDATE Dim_Calendario
-SET feriados = 'Proclamação da República', num_feriados = 1
+SET feriados = 'Proclama??o da Rep?blica', num_feriados = 1
 WHERE data = '2019-11-15';
 
 UPDATE Dim_Calendario
 SET feriados = 'Natal', num_feriados = 1
 WHERE data = '2019-12-25';
 
--- Atualização dos feriados de 2020
+-- Atualiza??o dos feriados de 2020
 
 UPDATE Dim_Calendario
-SET feriados = 'Confraternização Universal', num_feriados = 1
+SET feriados = 'Confraterniza??o Universal', num_feriados = 1
 WHERE data = '2020-01-01';
 
 UPDATE Dim_Calendario
@@ -512,7 +569,7 @@ SET feriados = 'Carnaval', num_feriados = 1
 WHERE data IN ('2020-02-24', '2020-02-25');
 
 UPDATE Dim_Calendario
-SET feriados = 'Paixão de Cristo', num_feriados = 1
+SET feriados = 'Paix?o de Cristo', num_feriados = 1
 WHERE data = '2020-04-10';
 
 UPDATE Dim_Calendario
@@ -528,7 +585,7 @@ SET feriados = 'Corpus Christi', num_feriados = 1
 WHERE data = '2020-06-11';
 
 UPDATE Dim_Calendario
-SET feriados = 'Independência do Brasil', num_feriados = 1
+SET feriados = 'Independ?ncia do Brasil', num_feriados = 1
 WHERE data = '2020-09-07';
 
 UPDATE Dim_Calendario
@@ -540,17 +597,17 @@ SET feriados = 'Finados', num_feriados = 1
 WHERE data = '2020-11-02';
 
 UPDATE Dim_Calendario
-SET feriados = 'Proclamação da República', num_feriados = 1
+SET feriados = 'Proclama??o da Rep?blica', num_feriados = 1
 WHERE data = '2020-11-15';
 
 UPDATE Dim_Calendario
 SET feriados = 'Natal', num_feriados = 1
 WHERE data = '2020-12-25';
 
--- Atualização dos feriados de 2021
+-- Atualiza??o dos feriados de 2021
 
 UPDATE Dim_Calendario
-SET feriados = 'Confraternização Universal', num_feriados = 1
+SET feriados = 'Confraterniza??o Universal', num_feriados = 1
 WHERE data = '2021-01-01';
 
 UPDATE Dim_Calendario
@@ -558,7 +615,7 @@ SET feriados = 'Carnaval', num_feriados = 1
 WHERE data IN ('2021-02-15', '2021-02-16');
 
 UPDATE Dim_Calendario
-SET feriados = 'Paixão de Cristo', num_feriados = 1
+SET feriados = 'Paix?o de Cristo', num_feriados = 1
 WHERE data = '2021-04-02';
 
 UPDATE Dim_Calendario
@@ -574,7 +631,7 @@ SET feriados = 'Corpus Christi', num_feriados = 1
 WHERE data = '2021-06-03';
 
 UPDATE Dim_Calendario
-SET feriados = 'Independência do Brasil', num_feriados = 1
+SET feriados = 'Independ?ncia do Brasil', num_feriados = 1
 WHERE data = '2021-09-07';
 
 UPDATE Dim_Calendario
@@ -586,17 +643,17 @@ SET feriados = 'Finados', num_feriados = 1
 WHERE data = '2021-11-02';
 
 UPDATE Dim_Calendario
-SET feriados = 'Proclamação da República', num_feriados = 1
+SET feriados = 'Proclama??o da Rep?blica', num_feriados = 1
 WHERE data = '2021-11-15';
 
 UPDATE Dim_Calendario
 SET feriados = 'Natal', num_feriados = 1
 WHERE data = '2021-12-25';
 
--- Atualização dos feriados de 2022
+-- Atualiza??o dos feriados de 2022
 
 UPDATE Dim_Calendario
-SET feriados = 'Confraternização Universal', num_feriados = 1
+SET feriados = 'Confraterniza??o Universal', num_feriados = 1
 WHERE data = '2022-01-01';
 
 UPDATE Dim_Calendario
@@ -604,7 +661,7 @@ SET feriados = 'Carnaval', num_feriados = 1
 WHERE data IN ('2022-02-28', '2022-03-01');
 
 UPDATE Dim_Calendario
-SET feriados = 'Paixão de Cristo', num_feriados = 1
+SET feriados = 'Paix?o de Cristo', num_feriados = 1
 WHERE data = '2022-04-15';
 
 UPDATE Dim_Calendario
@@ -620,7 +677,7 @@ SET feriados = 'Corpus Christi', num_feriados = 1
 WHERE data = '2022-06-16';
 
 UPDATE Dim_Calendario
-SET feriados = 'Independência do Brasil', num_feriados = 1
+SET feriados = 'Independ?ncia do Brasil', num_feriados = 1
 WHERE data = '2022-09-07';
 
 UPDATE Dim_Calendario
@@ -632,13 +689,12 @@ SET feriados = 'Finados', num_feriados = 1
 WHERE data = '2022-11-02';
 
 UPDATE Dim_Calendario
-SET feriados = 'Proclamação da República', num_feriados = 1
+SET feriados = 'Proclama??o da Rep?blica', num_feriados = 1
 WHERE data = '2022-11-15';
 
 UPDATE Dim_Calendario
 SET feriados = 'Natal', num_feriados = 1
 WHERE data = '2022-12-25';
-
 
 
 
