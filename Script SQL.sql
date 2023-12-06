@@ -97,29 +97,23 @@ ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_item INT;
 -- 2.8 Ajustar a coluna 'cod_item_elemento' de 'text' para 'int'
 
 USE ODS;
-
-SELECT DISTINCT CONVERT (INT,CONVERT(VARCHAR, cod_item_elemento))  FROM tb_exec_fin_tratada;
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_item_elemento VARCHAR(MAX);
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_item_elemento INT;
-
-
 
 
 -- 2.9 Ajustar a coluna 'cod_item_categoria' de 'text' para 'int'
 
 USE ODS;
-
-SELECT DISTINCT CONVERT (INT,CONVERT(VARCHAR, cod_item_categoria))  FROM tb_exec_fin_tratada;
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_item_categoria VARCHAR(MAX);
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_item_categoria INT;
+
 
 -- 2.10 Ajustar a coluna 'cod_item_grupo' de 'text' para 'int'
 
 USE ODS;
-
-SELECT DISTINCT CONVERT (INT,CONVERT(VARCHAR, cod_item_grupo))  FROM tb_exec_fin_tratada;
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_item_grupo VARCHAR(MAX);
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_item_grupo INT;
+
 -- 2.11 Ajustar a coluna 'cod_item_modalidade' de 'text' para 'int'
 
 USE ODS;
