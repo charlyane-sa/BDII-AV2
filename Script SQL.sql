@@ -1,12 +1,12 @@
---- Cria??o do ambiente do 'ODS' e 'DW'
+--- Criacao do ambiente do 'ODS' e 'DW'
 
--- Cria??o do banco 'ODS' (stage area)
+-- Criacao do banco 'ODS' (stage area)
 
 USE master;
 CREATE DATABASE ODS;
 
 
--- Cria??o do banco 'DW'
+-- Criacao do banco 'DW'
 
 USE master;
 CREATE DATABASE DW;
@@ -24,7 +24,7 @@ SELECT *
 FROM tb_execucao_financeira;
 
 
---- Duplicando a tabela 'tb_execu??o_financeira' no 'ODS' para realizar os tratamentos
+--- Duplicando a tabela 'tb_execucao_financeira' no 'ODS' para realizar os tratamentos
 
 USE ODS;
 
@@ -36,60 +36,28 @@ FROM tb_execucao_financeira;
 
 --- Limpeza Inicial da base de dados tb_exec_fin_tratada
 
--- 1. Remover as colunas 'vlr_liquidado' e 'dth_liquidacao' que s? possuem valores nulos
+-- 1. Remover as colunas 'vlr_liquidado' e 'dth_liquidacao' que somente possuem valores nulos
 
 USE ODS;
 ALTER TABLE tb_exec_fin_tratada DROP COLUMN vlr_liquidado; -- Remove a coluna vlr_liquidado
 ALTER TABLE tb_exec_fin_tratada DROP COLUMN dth_liquidacao; -- Remove a coluna dth_liquidacao
 
+
 -- 2. Ajustar o tipo de dados das colunas 
 
 -- 2.1 Ajustar a coluna 'num_ano' de 'text' para 'int'
-
-
-
-
-
-
-
-
 
 USE ODS;
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN num_ano VARCHAR(MAX);
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN num_ano INT;
 
 
-
-
-
-
-
-
-
-
-
--- 2.2 Ajustar a coluna 'cod_ne' de 'text' para 'int'  TABELA AINDA NÃO CONVERTIDA
-USE ODS;
--- deletando valores devido a incapicdade de conver~soa a inteiro
-DELETE FROM tb_exec_fin_tratada
-WHERE ISNUMERIC(cod_ne) = 0;
-
-
-
-
-SELECT DISTINCT CONVERT (INT,CONVERT(VARCHAR, cod_ne))  FROM tb_exec_fin_tratada;
-ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_ne VARCHAR(MAX);
-ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_ne INT;
-
-
-
-
--- 2.3 Ajustar a coluna 'codigo_orgao' de 'text' para 'int'
+-- 2.2 Ajustar a coluna 'codigo_orgao' de 'text' para 'int'
 
 USE ODS;
-SELECT DISTINCT CONVERT (INT,CONVERT(VARCHAR, codigo_orgao))  FROM tb_exec_fin_tratada
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN codigo_orgao VARCHAR(MAX);
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN codigo_orgao INT;
+
 
 -- 2.4 Ajustar a coluna 'cod_credor' de 'text' para 'int'
 
