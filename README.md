@@ -111,12 +111,79 @@ df = pd.read_sql('SELECT TOP 100000 * FROM tb_execucao_financeira', conn)
 df.head()
 ```
 
-  |id|num_ano|cod_ne|codigo_orgao|dsc_orgao|cod_credor|dsc_nome_credor|cod_fonte|dsc_fonte|cod_funcao|	...|cod_np|vlr_empenho|vlr_liquidado|valor pago|	vlr_resto_pagar|	dth_empenho|dth_pagamento|dth_liquidacao|dth_processamento|	num_ano_np|
-  | ------------- | ------------- |------------- | ------------- |------------- | ------------- |------------- | ------------- |------------- | ------------- |------------- | ------------- |------------- | ------------- |------------- | ------------- |------------- | ------------- |------------- | ------------- |------------- |
+ #|id|num_ano|cod_ne|codigo_orgao|dsc_orgao|cod_credor|dsc_nome_credor|cod_fonte|dsc_fonte|cod_funcao|	...|cod_np|vlr_empenho|vlr_liquidado|valor pago|	vlr_resto_pagar|	dth_empenho|dth_pagamento|dth_liquidacao|dth_processamento|	num_ano_np|
+| ------------- | ------------- | ------------- |------------- | ------------- |------------- | ------------- |------------- | ------------- |------------- | ------------- |------------- | ------------- |------------- | ------------- |------------- | ------------- |------------- | ------------- |------------- | ------------- |------------- |
 0|2021552683|2020|00028092|220001|SECRETARIA DA EDUCACAO|00805489|COOP.AGROPECUARIA E DE SERV.N.S.APARECIDA COOP...|73|TRANSFERÊNCIAS DIRETAS DO FNDE|	12|...|2022OB011158|41770.60|None|0.0|2254.90|2020-10-23|2022-03-02|None|2022-10-27|2022
 1|2021510082|2020|00028092|241281|HOSPITAL GERAL DE FORTALEZA|00827904|JB FARMA COMERCIO DE MEDICAMENTOS E REPRESENTA...|91|RECURSOS PROVENIENTES DO SUS|10|...|00006273|233.92|None|0.0|233.92|2020-07-29|2021-03-03|	None|	2022-10-27|2021
 2|2021552684|2020|00028093|220001|SECRETARIA DA EDUCACAO|00826182|WORLD SOLUCOES TECNOLOGICAS E SERVICOS EIRELI|00|RECURSOS ORDINÁRIOS|12|...|00059685|2520.00|None|0.0|2520.00|2020-10-23|2021-09-06|	None|	2022-10-27|2021
 3|2020784292|2020|00028093|240401|FUNDO ESTADUAL DE SAUDE|00010200|INSTITUTO NACIONAL DO SEGURO SOCIAL|86|CONVÊNIOS COM ÓRGÃOS MUNICIPAIS - ADMINISTRAÇÃ...|10|...|00047943|2373.00|None|2373.0|0.00|2020-07-29|2020-08-06|None|2022-10-27|2020
 4|2021552685|2020|00028094|220001|SECRETARIA DA EDUCACAO|0881449|DAMIÃO HONORIO DE LIMA JUNIOR 03348195390|00|RECURSOS ORDINÁRIOS|12 |...|00086965|695.94|None|0.0|347.97|2020-10-23|2021-11-17|None|2022-10-27|2021
 
+5 rows × 37 columns
+
+#### Visualizando as informações de colunas do Dataframe
+
+```python
+df.info()
+```
+
+![Captura de tela 2023-12-06 135801](https://github.com/charlyane-sa/BDII-AV2/assets/61762801/d1a3d628-6a15-43b3-b11a-5e04f823666d)
+
+
+#### Informações estatísticas das colunas Dataframe
+
+```python
+df.describe()
+```
+
+![Captura de tela 2023-12-06 140256](https://github.com/charlyane-sa/BDII-AV2/assets/61762801/596eb2f6-8550-4510-8fa8-cbf644aac2d2)
+
+#### Consultando dados nulos ou Missing Values no Dataframe
+
+```python
+df.isnull().sum()
+```
+
+![Captura de tela 2023-12-06 140347](https://github.com/charlyane-sa/BDII-AV2/assets/61762801/9c91e16a-a5fa-4f40-baeb-398adf252556)
+
+#### Visualizando as análises
+
+```python
+# Importando bibliotecas que usaremos para visualizar as análises
+import seaborn as sns
+from matplotlib import pyplot as plt
+import warnings
+warnings.filterwarnings('ignore')
+```
+
+#### Define um estilo para nossos plots
+
+```python
+plt.style.use('ggplot')
+```
+
+#### Plota a distribuição da variável valor_pago
+
+Essa é a variável que contem o valor pago
+
+```python
+%matplotlib inline
+sns.displot(df['valor_pago'], color='green', kde=False)
+plt.title('Distribuição da coluna valor_pago')
+```
+
+![Captura de tela 2023-12-06 140623](https://github.com/charlyane-sa/BDII-AV2/assets/61762801/721e8068-e875-4107-8c7d-f39667695a97)
+
+
+#### Plota a distribuição da variável num_ano
+
+Essa é a variável que contem o ano
+
+```python
+%matplotlib inline
+sns.displot(df['num_ano'],color='red', kde=False)
+plt.title('Distribuição da coluna num_ano')
+```
+
+![Captura de tela 2023-12-06 140718](https://github.com/charlyane-sa/BDII-AV2/assets/61762801/f618d9b7-1e72-4dd1-99d7-4a812ae5d5c3)
 
