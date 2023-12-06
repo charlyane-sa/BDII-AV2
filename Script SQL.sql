@@ -562,16 +562,6 @@ FROM ODS..tb_exec_fin_tratada;
 
 
 
-
--- Adicionar a chave primaria da tabela fato_execucao_financeira
-
-USE DW;
-
-ALTER TABLE fato_execucao_financeira
-ADD CONSTRAINT PK_fato_execucao_financeira PRIMARY KEY (id);
-
-
-
 -- Dimensao Calendario
 
 --- Criar a tabela dimensao calendario
