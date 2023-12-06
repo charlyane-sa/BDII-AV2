@@ -561,14 +561,14 @@ FROM ODS..tb_exec_fin_tratada;
 
 
 
-
 -- Dimensao Calendario
 
 --- Criar a tabela dimensao calendario
-
+USE DW;
 CREATE TABLE Dim_Calendario (
     id_data INT PRIMARY KEY,
     data DATE,
+	data_completa DATETIME,
     dia INT,
     mes INT,
     ano INT,
@@ -593,6 +593,7 @@ BEGIN
     INSERT INTO Dim_Calendario (
         id_data, 
         data, 
+		data_completa,
         dia, 
         mes, 
         ano, 
@@ -605,6 +606,7 @@ BEGIN
     VALUES (
         CONVERT(INT, FORMAT(@data_inicio, 'yyyyMMdd')),
         @data_inicio,
+		CAST(@data_inicio AS DATETIME),
         DAY(@data_inicio),
         MONTH(@data_inicio),
         YEAR(@data_inicio),
@@ -840,7 +842,4 @@ ADD FOREIGN KEY (cod_programa) REFERENCES dim_Programa(codigo);
 
 ALTER TABLE fato_execucao_financeira
 ADD FOREIGN KEY (cod_subfuncao) REFERENCES dim_Subfuncao(codigo);
-
-ALTER TABLE fato_execucao_financeira
-ADD FOREIGN KEY (data_processamento) REFERENCES Dim_Calendario(data);
 
