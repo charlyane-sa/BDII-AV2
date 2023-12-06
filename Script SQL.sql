@@ -77,26 +77,23 @@ SELECT cod_credor FROM tb_exec_fin_tratada;
 -- 2.5 Ajustar a coluna 'cod_fonte' de 'text' para 'int'
 
 USE ODS;
-
-SELECT DISTINCT CONVERT (INT,CONVERT(VARCHAR, cod_fonte))  FROM tb_exec_fin_tratada;
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_fonte VARCHAR(MAX);
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_fonte INT;
+
 
 -- 2.6 Ajustar a coluna 'cod_funcao' de 'text' para 'int'
 
 USE ODS;
-
-SELECT DISTINCT CONVERT (INT,CONVERT(VARCHAR, cod_funcao))  FROM tb_exec_fin_tratada;
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_funcao VARCHAR(MAX);
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_funcao INT;
+
 
 -- 2.7 Ajustar a coluna 'cod_item' de 'text' para 'int'
 
 USE ODS;
-ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_item INT;
-SELECT DISTINCT CONVERT (INT,CONVERT(VARCHAR, cod_item))  FROM tb_exec_fin_tratada;
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_item VARCHAR(MAX);
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_item INT;
+
 -- 2.8 Ajustar a coluna 'cod_item_elemento' de 'text' para 'int'
 
 USE ODS;
