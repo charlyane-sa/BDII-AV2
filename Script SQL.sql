@@ -59,102 +59,82 @@ ALTER TABLE tb_exec_fin_tratada ALTER COLUMN codigo_orgao VARCHAR(MAX);
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN codigo_orgao INT;
 
 
--- 2.4 Ajustar a coluna 'cod_credor' de 'text' para 'int'
-
-USE ODS;
-
-
-SELECT DISTINCT CONVERT (INT,CONVERT(VARCHAR, cod_credor))  FROM tb_exec_fin_tratada
-ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_credor VARCHAR(MAX);
-ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_credor INT;
-
-
-
-SELECT cod_credor FROM tb_exec_fin_tratada;
-
-
-
--- 2.5 Ajustar a coluna 'cod_fonte' de 'text' para 'int'
+-- 2.3 Ajustar a coluna 'cod_fonte' de 'text' para 'int'
 
 USE ODS;
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_fonte VARCHAR(MAX);
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_fonte INT;
 
 
--- 2.6 Ajustar a coluna 'cod_funcao' de 'text' para 'int'
+-- 2.4 Ajustar a coluna 'cod_funcao' de 'text' para 'int'
 
 USE ODS;
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_funcao VARCHAR(MAX);
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_funcao INT;
 
 
--- 2.7 Ajustar a coluna 'cod_item' de 'text' para 'int'
+-- 2.5 Ajustar a coluna 'cod_item' de 'text' para 'int'
 
 USE ODS;
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_item VARCHAR(MAX);
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_item INT;
 
--- 2.8 Ajustar a coluna 'cod_item_elemento' de 'text' para 'int'
+
+-- 2.6 Ajustar a coluna 'cod_item_elemento' de 'text' para 'int'
 
 USE ODS;
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_item_elemento VARCHAR(MAX);
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_item_elemento INT;
 
 
--- 2.9 Ajustar a coluna 'cod_item_categoria' de 'text' para 'int'
+-- 2.7 Ajustar a coluna 'cod_item_categoria' de 'text' para 'int'
 
 USE ODS;
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_item_categoria VARCHAR(MAX);
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_item_categoria INT;
 
 
--- 2.10 Ajustar a coluna 'cod_item_grupo' de 'text' para 'int'
+-- 2.8 Ajustar a coluna 'cod_item_grupo' de 'text' para 'int'
 
 USE ODS;
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_item_grupo VARCHAR(MAX);
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_item_grupo INT;
 
--- 2.11 Ajustar a coluna 'cod_item_modalidade' de 'text' para 'int'
+
+-- 2.9 Ajustar a coluna 'cod_item_modalidade' de 'text' para 'int'
 
 USE ODS;
-
-SELECT DISTINCT CONVERT (INT,CONVERT(VARCHAR, cod_item_modalidade))  FROM tb_exec_fin_tratada;
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_item_modalidade VARCHAR(MAX);
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_item_modalidade INT;
 
 
--- 2.12 Ajustar a coluna 'cod_programa' de 'text' para 'int'
+-- 2.10 Ajustar a coluna 'cod_programa' de 'text' para 'int'
 
 USE ODS;
-
-SELECT DISTINCT CONVERT (INT,CONVERT(VARCHAR, cod_programa))  FROM tb_exec_fin_tratada;
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_programa VARCHAR(MAX);
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_programa INT;
 
 
--- 2.13 Ajustar a coluna 'cod_subfuncao' de 'text' para 'int'
+-- 2.11 Ajustar a coluna 'cod_subfuncao' de 'text' para 'int'
 
 USE ODS;
+ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_subfuncao VARCHAR(MAX);
+ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_subfuncao INT;
 
-SELECT DISTINCT CONVERT (INT,CONVERT(VARCHAR, cod_subfuncao))  FROM tb_exec_fin_tratada;
-ALTER TABLE tb_execucao_financeira ALTER COLUMN cod_subfuncao VARCHAR(MAX);
-ALTER TABLE tb_execucao_financeira ALTER COLUMN cod_subfuncao INT;
 
--- 2.14 Ajustar a coluna 'num_sic' de 'text' para 'int'
+-- 2.12 Ajustar a coluna 'num_sic' de 'text' para 'int'
 
 USE ODS;
-
-SELECT DISTINCT CONVERT (INT,CONVERT(VARCHAR, num_sic))  FROM tb_exec_fin_tratada;
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN num_sic VARCHAR(MAX);
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN num_sic INT;
 
--- 2.15 Ajustar a coluna 'num_ano_np' de 'text' para 'int'
+
+-- 2.13 Ajustar a coluna 'num_ano_np' de 'text' para 'int'
 
 USE ODS;
-
-SELECT DISTINCT CONVERT (INT,CONVERT(VARCHAR, num_ano_np))  FROM tb_exec_fin_tratada;
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN num_ano_np VARCHAR(MAX);
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN num_ano_np INT;
+
 
 --VALIDAÇÃO DE DUPLICATAS
 SELECT
