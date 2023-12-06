@@ -48,15 +48,16 @@ ALTER TABLE tb_exec_fin_tratada DROP COLUMN dth_liquidacao; -- Remove a coluna d
 
 
 
-SELECT DISTINCT CONVERT (INT,CONVERT(VARCHAR, num_ano))  FROM tb_exec_fin_tratada
 
---TRANSFORMAR DE TEXTO PARA VARCHAR E DE VARCHAR PARA INTEIRO
+
 
 
 
 
 USE ODS;
+ALTER TABLE tb_exec_fin_tratada ALTER COLUMN num_ano VARCHAR(MAX);
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN num_ano INT;
+
 
 
 
@@ -69,26 +70,35 @@ ALTER TABLE tb_exec_fin_tratada ALTER COLUMN num_ano INT;
 
 -- 2.2 Ajustar a coluna 'cod_ne' de 'text' para 'int'  TABELA AINDA NÃO CONVERTIDA
 USE ODS;
+-- deletando valores devido a incapicdade de conver~soa a inteiro
+DELETE FROM tb_exec_fin_tratada
+WHERE ISNUMERIC(cod_ne) = 0;
 
-SELECT cod_ne FROM tb_exec_fin_tratada
 
-SELECT
-    CONVERT(INT, SUBSTRING(cod_ne, PATINDEX('%[0-9]%', cod_ne), LEN(cod_ne)))
-FROM
-    tb_exec_fin_tratada;
+
+
+SELECT DISTINCT CONVERT (INT,CONVERT(VARCHAR, cod_ne))  FROM tb_exec_fin_tratada;
+ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_ne VARCHAR(MAX);
+ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_ne INT;
+
+
 
 
 -- 2.3 Ajustar a coluna 'codigo_orgao' de 'text' para 'int'
 
 USE ODS;
 SELECT DISTINCT CONVERT (INT,CONVERT(VARCHAR, codigo_orgao))  FROM tb_exec_fin_tratada
+ALTER TABLE tb_exec_fin_tratada ALTER COLUMN codigo_orgao VARCHAR(MAX);
+ALTER TABLE tb_exec_fin_tratada ALTER COLUMN codigo_orgao INT;
 
 -- 2.4 Ajustar a coluna 'cod_credor' de 'text' para 'int'
 
 USE ODS;
 
-ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_credor INT;
+
 SELECT DISTINCT CONVERT (INT,CONVERT(VARCHAR, cod_credor))  FROM tb_exec_fin_tratada
+ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_credor VARCHAR(MAX);
+ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_credor INT;
 
 
 
@@ -99,26 +109,33 @@ SELECT cod_credor FROM tb_exec_fin_tratada;
 -- 2.5 Ajustar a coluna 'cod_fonte' de 'text' para 'int'
 
 USE ODS;
-ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_fonte INT;
+
 SELECT DISTINCT CONVERT (INT,CONVERT(VARCHAR, cod_fonte))  FROM tb_exec_fin_tratada;
+ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_fonte VARCHAR(MAX);
+ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_fonte INT;
 
 -- 2.6 Ajustar a coluna 'cod_funcao' de 'text' para 'int'
 
 USE ODS;
-ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_funcao INT;
+
 SELECT DISTINCT CONVERT (INT,CONVERT(VARCHAR, cod_funcao))  FROM tb_exec_fin_tratada;
+ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_funcao VARCHAR(MAX);
+ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_funcao INT;
 
 -- 2.7 Ajustar a coluna 'cod_item' de 'text' para 'int'
 
 USE ODS;
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_item INT;
 SELECT DISTINCT CONVERT (INT,CONVERT(VARCHAR, cod_item))  FROM tb_exec_fin_tratada;
-
+ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_item VARCHAR(MAX);
+ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_item INT;
 -- 2.8 Ajustar a coluna 'cod_item_elemento' de 'text' para 'int'
 
 USE ODS;
-ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_item_elemento INT;
+
 SELECT DISTINCT CONVERT (INT,CONVERT(VARCHAR, cod_item_elemento))  FROM tb_exec_fin_tratada;
+ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_item_elemento VARCHAR(MAX);
+ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_item_elemento INT;
 
 
 
@@ -126,46 +143,104 @@ SELECT DISTINCT CONVERT (INT,CONVERT(VARCHAR, cod_item_elemento))  FROM tb_exec_
 -- 2.9 Ajustar a coluna 'cod_item_categoria' de 'text' para 'int'
 
 USE ODS;
-ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_item_categoria INT;
+
 SELECT DISTINCT CONVERT (INT,CONVERT(VARCHAR, cod_item_categoria))  FROM tb_exec_fin_tratada;
+ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_item_categoria VARCHAR(MAX);
+ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_item_categoria INT;
 
 -- 2.10 Ajustar a coluna 'cod_item_grupo' de 'text' para 'int'
 
 USE ODS;
-ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_item_grupo INT;
-SELECT DISTINCT CONVERT (INT,CONVERT(VARCHAR, cod_item_grupo))  FROM tb_exec_fin_tratada;
 
+SELECT DISTINCT CONVERT (INT,CONVERT(VARCHAR, cod_item_grupo))  FROM tb_exec_fin_tratada;
+ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_item_grupo VARCHAR(MAX);
+ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_item_grupo INT;
 -- 2.11 Ajustar a coluna 'cod_item_modalidade' de 'text' para 'int'
 
 USE ODS;
-ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_item_modalidade INT;
+
 SELECT DISTINCT CONVERT (INT,CONVERT(VARCHAR, cod_item_modalidade))  FROM tb_exec_fin_tratada;
+ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_item_modalidade VARCHAR(MAX);
+ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_item_modalidade INT;
 
 
 -- 2.12 Ajustar a coluna 'cod_programa' de 'text' para 'int'
 
 USE ODS;
-ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_programa INT;
+
 SELECT DISTINCT CONVERT (INT,CONVERT(VARCHAR, cod_programa))  FROM tb_exec_fin_tratada;
+ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_programa VARCHAR(MAX);
+ALTER TABLE tb_exec_fin_tratada ALTER COLUMN cod_programa INT;
 
 
 -- 2.13 Ajustar a coluna 'cod_subfuncao' de 'text' para 'int'
 
 USE ODS;
-ALTER TABLE tb_execucao_financeira ALTER COLUMN cod_subfuncao INT;
+
 SELECT DISTINCT CONVERT (INT,CONVERT(VARCHAR, cod_subfuncao))  FROM tb_exec_fin_tratada;
+ALTER TABLE tb_execucao_financeira ALTER COLUMN cod_subfuncao VARCHAR(MAX);
+ALTER TABLE tb_execucao_financeira ALTER COLUMN cod_subfuncao INT;
 
 -- 2.14 Ajustar a coluna 'num_sic' de 'text' para 'int'
 
 USE ODS;
-ALTER TABLE tb_exec_fin_tratada ALTER COLUMN num_sic INT;
+
 SELECT DISTINCT CONVERT (INT,CONVERT(VARCHAR, num_sic))  FROM tb_exec_fin_tratada;
+ALTER TABLE tb_exec_fin_tratada ALTER COLUMN num_sic VARCHAR(MAX);
+ALTER TABLE tb_exec_fin_tratada ALTER COLUMN num_sic INT;
 
 -- 2.15 Ajustar a coluna 'num_ano_np' de 'text' para 'int'
 
 USE ODS;
-ALTER TABLE tb_exec_fin_tratada ALTER COLUMN num_ano_np INT;
+
 SELECT DISTINCT CONVERT (INT,CONVERT(VARCHAR, num_ano_np))  FROM tb_exec_fin_tratada;
+ALTER TABLE tb_exec_fin_tratada ALTER COLUMN num_ano_np VARCHAR(MAX);
+ALTER TABLE tb_exec_fin_tratada ALTER COLUMN num_ano_np INT;
+
+--VALIDAÇÃO DE DUPLICATAS
+SELECT
+    cod_ne,
+    codigo_orgao,
+    COUNT(*) AS qtd_duplicatas
+FROM
+    tb_exec_fin_tratada
+GROUP BY
+    cod_ne,
+    codigo_orgao
+HAVING
+    COUNT(*) > 1;
+
+	--PADRONIZANDO DADOS
+	SELECT DISTINCT num_ano FROM ODS..tb_exec_fin_tratada;
+
+	SELECT DISTINCT cod_ne FROM ODS..tb_exec_fin_tratada;
+
+	SELECT DISTINCT codigo_orgao FROM ODS..tb_exec_fin_tratada;
+
+	SELECT DISTINCT cod_credor FROM ODS..tb_exec_fin_tratada;
+
+	SELECT DISTINCT cod_funcao FROM ODS..tb_exec_fin_tratada;
+
+	SELECT DISTINCT cod_item FROM ODS..tb_exec_fin_tratada;
+
+	SELECT DISTINCT cod_item_elemento FROM ODS..tb_exec_fin_tratada;
+
+	SELECT DISTINCT cod_item_categoria FROM ODS..tb_exec_fin_tratada;
+
+	SELECT DISTINCT cod_item_grupo FROM ODS..tb_exec_fin_tratada;
+
+	SELECT DISTINCT cod_item_modalidade  FROM ODS..tb_exec_fin_tratada;
+
+	SELECT DISTINCT cod_programa FROM ODS..tb_exec_fin_tratada;
+
+	SELECT DISTINCT cod_subfuncao FROM ODS..tb_exec_fin_tratada;
+
+	SELECT DISTINCT num_sic FROM ODS..tb_exec_fin_tratada;
+
+	SELECT DISTINCT num_ano_np FROM ODS..tb_exec_fin_tratada;
+
+	
+
 
 
 
