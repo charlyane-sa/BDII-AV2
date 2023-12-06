@@ -54,3 +54,10 @@ Importação do backup do banco de dados para o SQL Server Management Studio.
 5. Aguarde a finalização da restauração.
 
   ![Captura de tela 2023-12-06 121152](https://github.com/charlyane-sa/BDII-AV2/assets/61762801/5973a5bb-7eab-4d75-8924-28595a7b38a5)
+
+
+### Modelagem Lógica
+
+Criação da modelagem lógica do banco de dados 'Financeiro'.
+
+![tb_execucao_financeira_LIGHT](https://github.com/charlyane-sa/BDII-AV2/assets/61762801/396ecba4-1211-4da9-a5de-2722e1c87e03)
