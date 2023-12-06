@@ -242,18 +242,20 @@ WHERE rn = 1;
 
 -- Dimensao Credor
 
+-- Dimensao Credor
+
 USE DW;
 
--- Criação da tabela dim_Credor
+-- Crie a tabela novamente
 CREATE TABLE dim_Credor (
-    codigo INT PRIMARY KEY,
+    codigo BIGINT PRIMARY KEY,
     descricao VARCHAR(MAX)
 );
 
 -- Inserção de dados distintos
 INSERT INTO dim_Credor (codigo, descricao)
 SELECT 
-    cod_credor AS codigo,
+    TRY_CAST(cod_credor AS BIGINT) AS codigo,
     dsc_nome_credor AS descricao
 FROM (
     SELECT 
@@ -262,200 +264,303 @@ FROM (
         ROW_NUMBER() OVER (PARTITION BY cod_credor ORDER BY (SELECT NULL)) AS rn
     FROM ODS..tb_exec_fin_tratada
 ) AS subquery
-WHERE rn = 1;
+WHERE rn = 1 AND TRY_CAST(cod_credor AS BIGINT) IS NOT NULL;
+
 
 
 
 -- Dimensao Fonte
 
+-- Criação da tabela dim_Fonte
 USE DW;
+CREATE TABLE dim_Fonte (
+    codigo INT PRIMARY KEY,
+    descricao VARCHAR(MAX)
+);
 
-SELECT cod_fonte AS codigo
-      ,dsc_fonte AS descricao
-	INTO dim_Fonte
-  FROM ODS..tb_exec_fin_tratada;
+-- Inserção de dados distintos
+INSERT INTO dim_Fonte (codigo, descricao)
+SELECT 
+    cod_fonte AS codigo,
+    dsc_fonte AS descricao
+FROM (
+    SELECT 
+        cod_fonte,
+        dsc_fonte,
+        ROW_NUMBER() OVER (PARTITION BY cod_fonte ORDER BY (SELECT NULL)) AS rn
+    FROM ODS..tb_exec_fin_tratada
+) AS subquery
+WHERE rn = 1 AND cod_fonte IS NOT NULL;
 
 
--- Adicionar a chave primaria da tabela dim_Fonte
-
-USE DW;
-
-ALTER TABLE dim_Fonte
-ADD CONSTRAINT PK_dim_Fonte PRIMARY KEY (codigo);
 
 
 -- Dimensao Funcao
 
+-- Criação da tabela dim_Funcao
 USE DW;
+CREATE TABLE dim_Funcao (
+    codigo INT PRIMARY KEY,
+    descricao VARCHAR(MAX)
+);
 
-SELECT cod_funcao AS codigo
-      ,dsc_funcao AS descricao
-	INTO dim_Funcao
-  FROM ODS..tb_exec_fin_tratada;
+-- Inserção de dados distintos
+INSERT INTO dim_Funcao (codigo, descricao)
+SELECT 
+    cod_funcao AS codigo,
+    dsc_funcao AS descricao
+FROM (
+    SELECT 
+        cod_funcao,
+        dsc_funcao,
+        ROW_NUMBER() OVER (PARTITION BY cod_funcao ORDER BY (SELECT NULL)) AS rn
+    FROM ODS..tb_exec_fin_tratada
+) AS subquery
+WHERE rn = 1;
 
 
--- Adicionar a chave primaria da tabela dim_Funcao
-
-USE DW;
-
-ALTER TABLE dim_Funcao
-ADD CONSTRAINT PK_dim_Funcao PRIMARY KEY (codigo);
 
 
 -- Dimensao Item
 
+-- Criação da tabela dim_Item
 USE DW;
+CREATE TABLE dim_Item (
+    codigo INT PRIMARY KEY,
+    descricao VARCHAR(MAX)
+);
 
-SELECT cod_item AS codigo
-      ,dsc_item AS descricao
-	INTO dim_Item
-  FROM ODS..tb_exec_fin_tratada;
+-- Inserção de dados distintos
+INSERT INTO dim_Item (codigo, descricao)
+SELECT 
+    cod_item AS codigo,
+    dsc_item AS descricao
+FROM (
+    SELECT 
+        cod_item,
+        dsc_item,
+        ROW_NUMBER() OVER (PARTITION BY cod_item ORDER BY (SELECT NULL)) AS rn
+    FROM ODS..tb_exec_fin_tratada
+) AS subquery
+WHERE rn = 1 AND cod_item IS NOT NULL;
 
-
--- Adicionar a chave primaria da tabela dim_Item
-
-USE DW;
-
-ALTER TABLE dim_Item
-ADD CONSTRAINT PK_dim_Item PRIMARY KEY (codigo);
 
 
 -- Dimensao Item Elemento
 
+-- Criação da tabela dim_ItemElemento
 USE DW;
+CREATE TABLE dim_ItemElemento (
+    codigo INT PRIMARY KEY,
+    descricao VARCHAR(MAX)
+);
 
-SELECT cod_item_elemento AS codigo
-      ,dsc_item_elemento AS descricao
-	INTO dim_ItemElemento
-  FROM ODS..tb_exec_fin_tratada;
+-- Inserção de dados distintos
+INSERT INTO dim_ItemElemento (codigo, descricao)
+SELECT 
+    cod_item_elemento AS codigo,
+    dsc_item_elemento AS descricao
+FROM (
+    SELECT 
+        cod_item_elemento,
+        dsc_item_elemento,
+        ROW_NUMBER() OVER (PARTITION BY cod_item_elemento ORDER BY (SELECT NULL)) AS rn
+    FROM ODS..tb_exec_fin_tratada
+) AS subquery
+WHERE rn = 1 AND cod_item_elemento IS NOT NULL;
 
-
--- Adicionar a chave primaria da tabela dim_ItemElemento
-
-USE DW;
-
-ALTER TABLE dim_ItemElemento
-ADD CONSTRAINT PK_dim_ItemElemento PRIMARY KEY (codigo);
 
 
 -- Dimensao Item Categoria
 
+-- Criação da tabela dim_ItemCategoria
 USE DW;
+CREATE TABLE dim_ItemCategoria (
+    codigo INT PRIMARY KEY,
+    descricao VARCHAR(MAX)
+);
 
-SELECT cod_item_categoria AS codigo
-      ,dsc_item_categoria AS descricao
-	INTO dim_ItemCategoria
-  FROM ODS..tb_exec_fin_tratada;
-
-
--- Adicionar a chave primaria da tabela dim_ItemCategoria
-
-USE DW;
-
-ALTER TABLE dim_ItemCategoria
-ADD CONSTRAINT PK_dim_ItemCategoria PRIMARY KEY (codigo);
+-- Inserção de dados distintos
+INSERT INTO dim_ItemCategoria (codigo, descricao)
+SELECT 
+    cod_item_categoria AS codigo,
+    dsc_item_categoria AS descricao
+FROM (
+    SELECT 
+        cod_item_categoria,
+        dsc_item_categoria,
+        ROW_NUMBER() OVER (PARTITION BY cod_item_categoria ORDER BY (SELECT NULL)) AS rn
+    FROM ODS..tb_exec_fin_tratada
+) AS subquery
+WHERE rn = 1;
 
 
 -- Dimensao Item Grupo
 
+-- Criação da tabela dim_ItemGrupo
 USE DW;
+CREATE TABLE dim_ItemGrupo (
+    codigo INT PRIMARY KEY,
+    descricao VARCHAR(MAX)
+);
 
-SELECT cod_item_grupo AS codigo
-      ,dsc_item_grupo AS descricao
-	INTO dim_ItemGrupo
-  FROM ODS..tb_exec_fin_tratada;
+-- Inserção de dados distintos
+INSERT INTO dim_ItemGrupo (codigo, descricao)
+SELECT 
+    cod_item_grupo AS codigo,
+    dsc_item_grupo AS descricao
+FROM (
+    SELECT 
+        cod_item_grupo,
+        dsc_item_grupo,
+        ROW_NUMBER() OVER (PARTITION BY cod_item_grupo ORDER BY (SELECT NULL)) AS rn
+    FROM ODS..tb_exec_fin_tratada
+) AS subquery
+WHERE rn = 1  AND cod_item_grupo IS NOT NULL;
 
 
--- Adicionar a chave primaria da tabela dim_ItemGrupo
-
-USE DW;
-
-ALTER TABLE dim_ItemGrupo
-ADD CONSTRAINT PK_dim_ItemGrupo PRIMARY KEY (codigo);
 
 
 -- Dimensao Item Modalidade
 
+-- Criação da tabela dim_ItemModalidade
 USE DW;
+CREATE TABLE dim_ItemModalidade (
+    codigo INT PRIMARY KEY,
+    descricao VARCHAR(MAX)
+);
 
-SELECT cod_item_modalidade AS codigo
-      ,dsc_item_modalidade AS descricao
-	INTO dim_ItemModalidade
-  FROM ODS..tb_exec_fin_tratada;
+-- Inserção de dados distintos
+INSERT INTO dim_ItemModalidade (codigo, descricao)
+SELECT 
+    cod_item_modalidade AS codigo,
+    dsc_item_modalidade AS descricao
+FROM (
+    SELECT 
+        cod_item_modalidade,
+        dsc_item_modalidade,
+        ROW_NUMBER() OVER (PARTITION BY cod_item_modalidade ORDER BY (SELECT NULL)) AS rn
+    FROM ODS..tb_exec_fin_tratada
+) AS subquery
+WHERE rn = 1;
 
 
--- Adicionar a chave primaria da tabela dim_ItemModalidade
-
-USE DW;
-
-ALTER TABLE dim_ItemModalidade
-ADD CONSTRAINT PK_dim_ItemModalidade PRIMARY KEY (codigo);
 
 
 -- Dimensao Programa
 
+-- Criação da tabela dim_Programa
 USE DW;
+CREATE TABLE dim_Programa (
+    codigo INT PRIMARY KEY,
+    descricao VARCHAR(MAX)
+);
 
-SELECT cod_programa AS codigo
-      ,dsc_programa AS descricao
-	INTO dim_Programa
-  FROM ODS..tb_exec_fin_tratada;
+-- Inserção de dados distintos
+INSERT INTO dim_Programa (codigo, descricao)
+SELECT 
+    cod_programa AS codigo,
+    dsc_programa AS descricao
+FROM (
+    SELECT 
+        cod_programa,
+        dsc_programa,
+        ROW_NUMBER() OVER (PARTITION BY cod_programa ORDER BY (SELECT NULL)) AS rn
+    FROM ODS..tb_exec_fin_tratada
+) AS subquery
+WHERE rn = 1;
 
--- Adicionar a chave primaria da tabela dim_Programa
-
-USE DW;
-
-ALTER TABLE dim_Programa
-ADD CONSTRAINT PK_dim_Programa PRIMARY KEY (codigo);
 
 
 -- Dimensao Subfuncao
 
+-- Criação da tabela dim_Subfuncao
 USE DW;
+CREATE TABLE dim_Subfuncao (
+    codigo INT PRIMARY KEY,
+    descricao VARCHAR(MAX)
+);
 
-SELECT cod_subfuncao AS codigo
-      ,dsc_subfuncao AS descricao
-	INTO dim_Subfuncao
-  FROM ODS..tb_exec_fin_tratada;
+-- Inserção de dados distintos
+INSERT INTO dim_Subfuncao (codigo, descricao)
+SELECT 
+    cod_subfuncao AS codigo,
+    dsc_subfuncao AS descricao
+FROM (
+    SELECT 
+        cod_subfuncao,
+        dsc_subfuncao,
+        ROW_NUMBER() OVER (PARTITION BY cod_subfuncao ORDER BY (SELECT NULL)) AS rn
+    FROM ODS..tb_exec_fin_tratada
+) AS subquery
+WHERE rn = 1;
 
--- Adicionar a chave primaria da tabela dim_Programa
-
-USE DW;
-
-ALTER TABLE dim_Subfuncao
-ADD CONSTRAINT PK_dim_Subfuncao PRIMARY KEY (codigo);
 
 
 -- Fato execucao financeira
 
-USE DW;
+-- Fato execucao financeira
 
+DROP TABLE fato_execucao_financeira
+
+-- Criação da tabela fato_execucao_financeira
+USE DW;
+CREATE TABLE fato_execucao_financeira (
+    id INT PRIMARY KEY,
+    num_ano INT,
+    cod_ne VARCHAR(MAX),
+    codigo_orgao INT,
+    cod_credor BIGINT,
+    cod_fonte INT,
+    cod_funcao INT,
+    cod_item INT,
+    cod_item_elemento INT,
+    cod_item_categoria INT,
+    cod_item_grupo INT,
+    cod_item_modalidade INT,
+    cod_programa INT,
+    cod_subfuncao INT,
+    num_sic INT,
+    cod_np VARCHAR(MAX),
+    valor_empenho DECIMAL(18, 2), -- Ajuste para precisão e escala maiores
+    valor_pago DECIMAL(18, 2),
+    valor_resto_pagar DECIMAL(18, 2),
+    data_empenho DATETIME,
+    data_pagamento DATETIME,
+    data_processamento DATETIME,
+    num_ano_np INT
+);
+
+-- Inserção de dados distintos
+INSERT INTO fato_execucao_financeira
 SELECT 
-		id,
-		num_ano,
-		cod_ne,
-		codigo_orgao,
-		cod_credor,
-		cod_fonte,
-		cod_funcao,
-		cod_item,
-		cod_item_elemento,
-		cod_item_categoria,
-		cod_item_grupo,
-		cod_item_modalidade,
-		cod_programa,
-		cod_subfuncao,
-		num_sic,
-		cod_np,
-		vlr_empenho AS valor_empenho,
-		valor_pago,
-		vlr_resto_pagar AS valor_resto_pagar,
-		dth_empenho AS data_empenho,
-		dth_pagamento AS data_pagamento,
-		dth_processamento AS data_processamento,
-		num_ano_np
-	INTO fato_execucao_financeira
-  FROM ODS..tb_exec_fin_tratada;
+    id,
+    num_ano,
+    cod_ne,
+    codigo_orgao,
+    TRY_CAST(cod_credor AS BIGINT),
+    cod_fonte,
+    cod_funcao,
+    cod_item,
+    cod_item_elemento,
+    cod_item_categoria,
+    cod_item_grupo,
+    cod_item_modalidade,
+    cod_programa,
+    cod_subfuncao,
+    num_sic,
+    cod_np,
+    vlr_empenho AS valor_empenho,
+    valor_pago,
+    vlr_resto_pagar AS valor_resto_pagar,
+    dth_empenho AS data_empenho,
+    dth_pagamento AS data_pagamento,
+    dth_processamento AS data_processamento,
+    num_ano_np
+FROM ODS..tb_exec_fin_tratada;
+
+
+
 
 
 -- Adicionar a chave primaria da tabela fato_execucao_financeira
