@@ -71,6 +71,9 @@ A análise exploratória de dados ou, em resumo, EDA (do inglês: Exploratory Da
 
 O principal objetivo da EDA é detectar quaisquer erros ou discrepâncias, bem como entender diferentes padrões nos dados. Ele permite que os analistas entendam melhor os dados antes de fazer qualquer suposição e também descubram relacionamentos entre variáveis. Os resultados da EDA ajudam as empresas a conhecer seus clientes, expandir seus negócios e tomar melhores decisões.
 
+A análise exploratória dos dados foi realizada utilizando somente uma amostragem dos dados. Foi utilizada a ferramenta jupyter notebook.
+
+
 #### Instalando e importando as bibliotecas necessárias
 
 Instalando o xlrd e importando as bibliotecas que usaremos na análise.
@@ -187,26 +190,28 @@ plt.title('Distribuição da coluna num_ano')
 
 ![Captura de tela 2023-12-06 140718](https://github.com/charlyane-sa/BDII-AV2/assets/61762801/f618d9b7-1e72-4dd1-99d7-4a812ae5d5c3)
 
-## Código SQL
+### Limpeza Inicial e criação do bancos ODS e DW
 
-### Criação do banco 'ODS'
+#### Criação do banco 'ODS'
 Para dar suporte à área de stage (ODS - Operational Data Store), onde realizaremos os tratamentos e transformações preliminares nos dados antes de enviá-los para o Data Warehouse (DW), vamos criar o banco 'ODS'
 
-
+```sql
 USE master;
 CREATE DATABASE ODS;
+```
 
-
-### Criação do banco 'DW'
+#### Criação do banco 'DW'
 Agora, criaremos o Data Warehouse (DW), que será a base consolidada e otimizada para análise das informações provenientes da base 'Financeiro'
 
+```sql
+USE master;
 CREATE DATABASE DW;
+```
 
-
-### Enviando tabela da base 'Financeiro' para o 'ODS'
+#### Enviando tabela da base 'Financeiro' para o 'ODS'
 Para iniciar o processo de tratamento e transformação dos dados, enviaremos a tabela 'tb_execucao_financeira' da base 'Financeiro' para o banco 'ODS'
 
-
+```sql
 USE ODS;
 
 -- Apagar a tabela se ela existir
@@ -217,27 +222,27 @@ USE Financeiro;
 SELECT * 
 	INTO ODS..tb_execucao_financeira
 FROM tb_execucao_financeira;
+```
 
-
-### Duplicando a tabela 'tb_execucao_financeira' no 'ODS' para realizar os tratamentos
+#### Duplicando a tabela 'tb_execucao_financeira' no 'ODS' para realizar os tratamentos
 
 Agora, duplicaremos a tabela 'tb_execucao_financeira' no banco 'ODS' para realizar os tratamentos necessários
 
-
+```sql
 USE ODS;
 
 -- Duplicar a tabela para tratamentos
 SELECT * 
 	INTO ODS..tb_exec_fin_tratada
 FROM tb_execucao_financeira;
+```
 
 
 
-
-### Limpeza inicial da base de dados tb_exec_fin_tratada
+#### Limpeza inicial da base de dados tb_exec_fin_tratada
 Para aprimorar a qualidade dos dados na tabela 'tb_exec_fin_tratada' no ODS, iremos remover as colunas 'vlr_liquidado' e 'dth_liquidacao' que contêm valores nulos
 
-
+```sql
 USE ODS;
 
 -- Remove a coluna vlr_liquidado
@@ -246,10 +251,11 @@ ALTER TABLE tb_exec_fin_tratada DROP COLUMN vlr_liquidado;
 -- Remove a coluna dth_liquidacao
 ALTER TABLE tb_exec_fin_tratada DROP COLUMN dth_liquidacao;
 
-### Ajustar tipos de dados das colunas
-Para trabalharmos melhor com os dados que estão com as colunas, vamos converter seus valores para inteiros
-
 ```
+#### Ajustar tipos de dados das colunas
+Para trabalharmos melhor com os dados que estão com as colunas, vamos converter os tipos de dados de algumas colunas
+
+```sql
 -- 2.1 Ajustar a coluna 'num_ano' de 'text' para 'int'
 
 USE ODS;
@@ -413,15 +419,16 @@ USE ODS;
 ALTER TABLE tb_exec_fin_tratada ALTER COLUMN dsc_subfuncao VARCHAR(MAX);
 ```
 
-### Criando o Data WareHouse(DW) e dimensões
+## Transformação e Carga
 
-## Criação do 'DW'
+### Criando as tabelas fato e dimensões no Data WareHouse(DW)
 
-Antes de iniciar a criação das dimensões, é necessário criar o Data Warehouse (DW), que será a base consolidada para análise
 
-## Criação de dimensões
-```
--- Dimensao Orgao
+#### Criação das dimensões
+
+#### Dimensão Orgão
+
+```sql
 
 -- Criação da tabela dim_Orgao
 USE DW;
@@ -443,15 +450,16 @@ FROM (
     FROM ODS..tb_exec_fin_tratada
 ) AS subquery
 WHERE rn = 1;
+```
 
+#### Dimensão Orgão
 
--- Dimensao Credor
+```sql
 
--- Dimensao Credor
 
 USE DW;
 
--- Crie a tabela novamente
+-- Criação da tabela dim_Credor
 CREATE TABLE dim_Credor (
     codigo BIGINT PRIMARY KEY,
     descricao VARCHAR(MAX)
@@ -471,10 +479,12 @@ FROM (
 ) AS subquery
 WHERE rn = 1 AND TRY_CAST(cod_credor AS BIGINT) IS NOT NULL;
 
+```
 
+#### Dimensão Fonte
 
+```sql
 
--- Dimensao Fonte
 
 -- Criação da tabela dim_Fonte
 USE DW;
@@ -497,10 +507,11 @@ FROM (
 ) AS subquery
 WHERE rn = 1 AND cod_fonte IS NOT NULL;
 
+```
 
+#### Dimensão Função
 
-
--- Dimensao Funcao
+```sql
 
 -- Criação da tabela dim_Funcao
 USE DW;
@@ -522,10 +533,12 @@ FROM (
     FROM ODS..tb_exec_fin_tratada
 ) AS subquery
 WHERE rn = 1;
+```
 
 
+#### Dimensão Item
 
-
+```sql
 -- Dimensao Item
 
 -- Criação da tabela dim_Item
@@ -549,9 +562,11 @@ FROM (
 ) AS subquery
 WHERE rn = 1 AND cod_item IS NOT NULL;
 
+```
 
+#### Dimensão Item Elemento
 
--- Dimensao Item Elemento
+```sql
 
 -- Criação da tabela dim_ItemElemento
 USE DW;
@@ -573,10 +588,11 @@ FROM (
     FROM ODS..tb_exec_fin_tratada
 ) AS subquery
 WHERE rn = 1 AND cod_item_elemento IS NOT NULL;
+```
 
+#### Dimensão Item Categoria
 
-
--- Dimensao Item Categoria
+```sql
 
 -- Criação da tabela dim_ItemCategoria
 USE DW;
@@ -598,9 +614,11 @@ FROM (
     FROM ODS..tb_exec_fin_tratada
 ) AS subquery
 WHERE rn = 1;
+```
 
+#### Dimensão Item Grupo
 
--- Dimensao Item Grupo
+```sql
 
 -- Criação da tabela dim_ItemGrupo
 USE DW;
@@ -623,10 +641,11 @@ FROM (
 ) AS subquery
 WHERE rn = 1  AND cod_item_grupo IS NOT NULL;
 
+```
 
+#### Dimensão Item Modalidade
 
-
--- Dimensao Item Modalidade
+```sql
 
 -- Criação da tabela dim_ItemModalidade
 USE DW;
@@ -649,10 +668,11 @@ FROM (
 ) AS subquery
 WHERE rn = 1;
 
+```
 
+#### Dimensão Programa
 
-
--- Dimensao Programa
+```sql
 
 -- Criação da tabela dim_Programa
 USE DW;
@@ -674,10 +694,11 @@ FROM (
     FROM ODS..tb_exec_fin_tratada
 ) AS subquery
 WHERE rn = 1;
+```
 
+#### Dimensão Subfunção
 
-
--- Dimensao Subfuncao
+```sql
 
 -- Criação da tabela dim_Subfuncao
 USE DW;
@@ -700,29 +721,14 @@ FROM (
 ) AS subquery
 WHERE rn = 1;
 
-
 ```
 
-### Fato execução financeira
-
-## Remoção da tabela 
-
-Antes de criar a tabela fato_execucao_financeira, é necessário remover a versão existente, caso ela já exista
-
-
-```
--- Remoção da tabela existente
-USE DW;
-DROP TABLE IF EXISTS fato_execucao_financeira;
-```
-
-## Criação da tabela fato_execucao_financeira
+#### Criação da tabela fato_execucao_financeira
 
 A tabela fato_execucao_financeira será a tabela de fatos no Data Warehouse, armazenando informações cruciais sobre a execução financeira. Essa tabela terá uma chave primária (id) e várias colunas representando diferentes dimensões
 
-```
+```sql
 
--- Criação da tabela fato_execucao_financeira
 USE DW;
 CREATE TABLE fato_execucao_financeira (
     id INT PRIMARY KEY,
@@ -753,12 +759,12 @@ CREATE TABLE fato_execucao_financeira (
 
 ```
 
-## Inserção de dados distintos
+#### Inserção de dados na tabela fato
 
 Após a criação da tabela, os dados distintos da tabela tb_exec_fin_tratada do ODS (Operational Data Store) são inseridos na tabela de fatos fato_execucao_financeira. Nota-se que algumas conversões de tipos foram realizadas, como a tentativa de converter cod_credor para BIGINT
 
-```
--- Inserção de dados distintos
+```sql
+
 INSERT INTO fato_execucao_financeira
 SELECT 
     id,
@@ -788,15 +794,15 @@ FROM ODS..tb_exec_fin_tratada;
 
 ```
 
-### Dimensão calendário
+#### Dimensão calendário
 
-## Criação da tabela Dimensão Calendário
+#### Criação da tabela Dimensão Calendário
 
 A tabela Dim_Calendario será a dimensão de calendário no Data Warehouse, contendo informações temporais detalhadas. Esta tabela é fundamental para análises temporais e permite a correlação de dados financeiros com informações de data
 
 
-```
--- Criação da tabela Dimensão Calendário
+```sql
+
 CREATE TABLE Dim_Calendario (
     id_data INT PRIMARY KEY,
     data DATE,
@@ -813,12 +819,11 @@ CREATE TABLE Dim_Calendario (
 );
 ```
 
-## Preenchimento da tabela com dados de 2019 a 2022
+#### Preenchimento da tabela com dados de 2019 a 2022
 
 A tabela será preenchida com dados de 2019 a 2022, incluindo informações como dia, mês, ano, nome do mês, nome abreviado do mês, nome do dia da semana, número do dia da semana, trimestre e feriados
 
-
-```
+```sql
 
 -- Preencher a tabela com dados de 2019 a 2022
 
@@ -857,77 +862,212 @@ END;
 
 ```
 
-### Preecher feriados
+#### Preencher feriados
 
-Os feriados nacionais foram incorporados à tabela Dim_Calendario com base em informações disponíveis no site da ANBIMA. A seguir, estão as atualizações dos feriados para os anos de 2019 a 2022:
+Os feriados nacionais foram incorporados à tabela Dim_Calendario com base em informações disponíveis no site da [ANBIMA](https://www.anbima.com.br/feriados/). A seguir, estão as atualizações dos feriados para os anos de 2019 a 2022:
 
-## Atualização dos Feriados de 2019
+#### Atualização dos Feriados de 2019
 
-```
+```sql
 UPDATE Dim_Calendario
-SET feriados = 'Confraternização Universal', num_feriados = 1
+SET feriados = 'Confraternizacao Universal', num_feriados = 1
 WHERE data = '2019-01-01';
 
 UPDATE Dim_Calendario
 SET feriados = 'Carnaval', num_feriados = 1
 WHERE data IN ('2019-03-04', '2019-03-05');
 
--- (Outros feriados de 2019)
-
-```
-
-## Atualização dos Feriados de 2020
-
-```
 UPDATE Dim_Calendario
-SET feriados = 'Confraternização Universal', num_feriados = 1
+SET feriados = 'Paixao de Cristo', num_feriados = 1
+WHERE data = '2019-04-19';
+
+UPDATE Dim_Calendario
+SET feriados = 'Tiradentes', num_feriados = 1
+WHERE data = '2019-04-21';
+
+UPDATE Dim_Calendario
+SET feriados = 'Dia do Trabalho', num_feriados = 1
+WHERE data = '2019-05-01';
+
+UPDATE Dim_Calendario
+SET feriados = 'Corpus Christi', num_feriados = 1
+WHERE data = '2019-06-20';
+
+UPDATE Dim_Calendario
+SET feriados = 'Independencia do Brasil', num_feriados = 1
+WHERE data = '2019-09-07';
+
+UPDATE Dim_Calendario
+SET feriados = 'Nossa Sra Aparecida - Padroeira do Brasil', num_feriados = 1
+WHERE data = '2019-10-12';
+
+UPDATE Dim_Calendario
+SET feriados = 'Finados', num_feriados = 1
+WHERE data = '2019-11-02';
+
+UPDATE Dim_Calendario
+SET feriados = 'Proclamacao da Republica', num_feriados = 1
+WHERE data = '2019-11-15';
+
+UPDATE Dim_Calendario
+SET feriados = 'Natal', num_feriados = 1
+WHERE data = '2019-12-25';
+
+```
+
+#### Atualização dos Feriados de 2020
+
+```sql
+UPDATE Dim_Calendario
+SET feriados = 'Confraternizacao Universal', num_feriados = 1
 WHERE data = '2020-01-01';
 
 UPDATE Dim_Calendario
 SET feriados = 'Carnaval', num_feriados = 1
 WHERE data IN ('2020-02-24', '2020-02-25');
 
--- (Outros feriados de 2020)
-
-
-```
-
-## Atualização dos Feriados de 2021
-
-```
 UPDATE Dim_Calendario
-SET feriados = 'Confraternização Universal', num_feriados = 1
+SET feriados = 'Paixao de Cristo', num_feriados = 1
+WHERE data = '2020-04-10';
+
+UPDATE Dim_Calendario
+SET feriados = 'Tiradentes', num_feriados = 1
+WHERE data = '2020-04-21';
+
+UPDATE Dim_Calendario
+SET feriados = 'Dia do Trabalho', num_feriados = 1
+WHERE data = '2020-05-01';
+
+UPDATE Dim_Calendario
+SET feriados = 'Corpus Christi', num_feriados = 1
+WHERE data = '2020-06-11';
+
+UPDATE Dim_Calendario
+SET feriados = 'Independencia do Brasil', num_feriados = 1
+WHERE data = '2020-09-07';
+
+UPDATE Dim_Calendario
+SET feriados = 'Nossa Sra Aparecida - Padroeira do Brasil', num_feriados = 1
+WHERE data = '2020-10-12';
+
+UPDATE Dim_Calendario
+SET feriados = 'Finados', num_feriados = 1
+WHERE data = '2020-11-02';
+
+UPDATE Dim_Calendario
+SET feriados = 'Proclamacao da Republica', num_feriados = 1
+WHERE data = '2020-11-15';
+
+UPDATE Dim_Calendario
+SET feriados = 'Natal', num_feriados = 1
+WHERE data = '2020-12-25';
+
+
+```
+
+#### Atualização dos Feriados de 2021
+
+```sql
+UPDATE Dim_Calendario
+SET feriados = 'Confraternizacao Universal', num_feriados = 1
 WHERE data = '2021-01-01';
 
 UPDATE Dim_Calendario
 SET feriados = 'Carnaval', num_feriados = 1
 WHERE data IN ('2021-02-15', '2021-02-16');
 
--- (Outros feriados de 2021)
-
-
-```
-
-## Atualização dos Feriados de 2022
-
-```
 UPDATE Dim_Calendario
-SET feriados = 'Confraternização Universal', num_feriados = 1
+SET feriados = 'Paixao de Cristo', num_feriados = 1
+WHERE data = '2021-04-02';
+
+UPDATE Dim_Calendario
+SET feriados = 'Tiradentes', num_feriados = 1
+WHERE data = '2021-04-21';
+
+UPDATE Dim_Calendario
+SET feriados = 'Dia do Trabalho', num_feriados = 1
+WHERE data = '2021-05-01';
+
+UPDATE Dim_Calendario
+SET feriados = 'Corpus Christi', num_feriados = 1
+WHERE data = '2021-06-03';
+
+UPDATE Dim_Calendario
+SET feriados = 'Independencia do Brasil', num_feriados = 1
+WHERE data = '2021-09-07';
+
+UPDATE Dim_Calendario
+SET feriados = 'Nossa Sra Aparecida - Padroeira do Brasil', num_feriados = 1
+WHERE data = '2021-10-12';
+
+UPDATE Dim_Calendario
+SET feriados = 'Finados', num_feriados = 1
+WHERE data = '2021-11-02';
+
+UPDATE Dim_Calendario
+SET feriados = 'Proclamacao da Republica', num_feriados = 1
+WHERE data = '2021-11-15';
+
+UPDATE Dim_Calendario
+SET feriados = 'Natal', num_feriados = 1
+WHERE data = '2021-12-25';
+
+
+```
+
+#### Atualização dos Feriados de 2022
+
+```sql
+UPDATE Dim_Calendario
+SET feriados = 'Confraternizacao Universal', num_feriados = 1
 WHERE data = '2022-01-01';
 
 UPDATE Dim_Calendario
 SET feriados = 'Carnaval', num_feriados = 1
 WHERE data IN ('2022-02-28', '2022-03-01');
 
--- (Outros feriados de 2022)
+UPDATE Dim_Calendario
+SET feriados = 'Paixao de Cristo', num_feriados = 1
+WHERE data = '2022-04-15';
 
+UPDATE Dim_Calendario
+SET feriados = 'Tiradentes', num_feriados = 1
+WHERE data = '2022-04-21';
+
+UPDATE Dim_Calendario
+SET feriados = 'Dia do Trabalho', num_feriados = 1
+WHERE data = '2022-05-01';
+
+UPDATE Dim_Calendario
+SET feriados = 'Corpus Christi', num_feriados = 1
+WHERE data = '2022-06-16';
+
+UPDATE Dim_Calendario
+SET feriados = 'Independencia do Brasil', num_feriados = 1
+WHERE data = '2022-09-07';
+
+UPDATE Dim_Calendario
+SET feriados = 'Nossa Sra Aparecida - Padroeira do Brasil', num_feriados = 1
+WHERE data = '2022-10-12';
+
+UPDATE Dim_Calendario
+SET feriados = 'Finados', num_feriados = 1
+WHERE data = '2022-11-02';
+
+UPDATE Dim_Calendario
+SET feriados = 'Proclamacao da Republica', num_feriados = 1
+WHERE data = '2022-11-15';
+
+UPDATE Dim_Calendario
+SET feriados = 'Natal', num_feriados = 1
+WHERE data = '2022-12-25';
 
 ```
 
-## Adicionando Chaves estrangeiras
+#### Adicionando Chaves estrangeiras
 Para garantir a integridade referencial e possibilitar análises mais abrangentes, foram adicionadas chaves estrangeiras na tabela fato_execucao_financeira. As chaves estrangeiras vinculam as informações de execução financeira às dimensões relevantes
 
-```
+```sql
 ALTER TABLE fato_execucao_financeira
 ADD FOREIGN KEY (codigo_orgao) REFERENCES dim_Orgao(codigo);
 
@@ -965,3 +1105,39 @@ ALTER TABLE fato_execucao_financeira
 ADD FOREIGN KEY (data_processamento) REFERENCES Dim_Calendario(data);
 
 ```
+
+### Modelo DW
+
+Abaixo está reprensentado o modelo do DW criado.
+
+![Captura de tela 2023-12-06 214732](https://github.com/charlyane-sa/BDII-AV2/assets/61762801/24a8263d-1185-4b18-9d9f-5e0792dfd522)
+
+
+### Visualização
+
+Foi utilizada a ferramenta Power BI para gerar a parte visual do dados criados.
+
+#### Conectar o Power BI ao Banco de dados
+
+1. Selecionar na 'Página Inicial' a opção 'SQL Server'
+
+![Captura de tela 2023-12-06 220023](https://github.com/charlyane-sa/BDII-AV2/assets/61762801/4fa55bc9-5bc3-4e36-9c99-cd1697bb18c9)
+
+
+2. Preencher o nome do 'Servidor' e do 'Banco de dados' e clicar em 'OK'. Se for a primeira conexão deve ser informada as credencias de acesso ao banco de dados.
+
+![Captura de tela 2023-12-06 220219](https://github.com/charlyane-sa/BDII-AV2/assets/61762801/7c6a79b4-32fc-439c-b927-990c3b487b9f)
+
+
+3. Selecionar as tabelas que deseja importar e clicar em 'Transformar Dados'
+
+![Captura de tela 2023-12-06 220435](https://github.com/charlyane-sa/BDII-AV2/assets/61762801/d90922e5-2a86-43f2-b517-661178c4faee)
+
+
+4. Verificar os dados no Power Query Editor e caso necessário realizar algum tratamento. Após as alterações carregar os dados (Fehcar e Aplicar).
+Como a base já foi tratada no DW, não será necessário manipulação dos dados no Power BI.
+
+![Captura de tela 2023-12-06 220713](https://github.com/charlyane-sa/BDII-AV2/assets/61762801/ad363d22-738a-4d56-96be-f8f28647eacd)
+
+
+#### Conectar o Power BI ao Banco de dados
