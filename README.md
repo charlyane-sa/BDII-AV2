@@ -1140,4 +1140,96 @@ Como a base já foi tratada no DW, não será necessário manipulação dos dado
 ![Captura de tela 2023-12-06 220713](https://github.com/charlyane-sa/BDII-AV2/assets/61762801/ad363d22-738a-4d56-96be-f8f28647eacd)
 
 
-#### Conectar o Power BI ao Banco de dados
+#### Criação das medidas
+
+Foram criadas 3 medidas para somar os valores totais de empenho, valor pago e valor restante a pagar.
+
+#### Criação das medidas
+
+#### Total geral valor a pagar
+
+```
+Total geral valor a pagar = SUM(fato_execucao_financeira[valor_resto_pagar])
+```
+#### Total geral valor original (empenho)
+
+```
+Total geral valor original (empenho) = SUM(fato_execucao_financeira[valor_empenho])
+```
+
+#### Total geral valor pago
+
+```
+Total geral valor pago = SUM(fato_execucao_financeira[valor_pago])
+```
+
+#### Criação do Layout
+
+Foi utilizada a ferramenta Figma para a criação do layout que será utilizada no Dashboard. O layout é exportado no formato PNG.
+
+#### Capa (Home)
+
+![Home](https://github.com/charlyane-sa/BDII-AV2/assets/61762801/eadc5fda-023f-4443-b01e-abb732cf4bc6)
+
+
+#### Página 01_Análise por Orgão
+
+![Pag 1](https://github.com/charlyane-sa/BDII-AV2/assets/61762801/78f9fad7-7d3c-493f-96ee-eecd28d4e474)
+
+
+#### Criação das páginas do Dashboard
+
+#### Home
+
+Passos realizados:
+
+- Adicionado a imagem da capa como 'Tela de fundo'
+
+![Captura de tela 2023-12-06 223523](https://github.com/charlyane-sa/BDII-AV2/assets/61762801/9837573c-c2c2-4640-8698-072ffc81bd26)
+
+  
+- Adicionado um botão de ação para ir para a página 01_Análise por Orgão
+
+![Captura de tela 2023-12-06 223549](https://github.com/charlyane-sa/BDII-AV2/assets/61762801/020948eb-d02a-43e0-bbe0-1ebde4a8c1e1)
+
+
+#### Página 01_Análise por Orgão
+
+Passos realizados:
+
+- Adicionado a imagem da capa como 'Tela de fundo'
+
+![Captura de tela 2023-12-06 224104](https://github.com/charlyane-sa/BDII-AV2/assets/61762801/844bcc72-110a-4f3d-b8c3-6fafc2a40d9a)
+
+  
+- Adicionado gráfico de barras representando o 'Total geral valor original por Orgão'
+
+![Captura de tela 2023-12-06 223627](https://github.com/charlyane-sa/BDII-AV2/assets/61762801/2d743628-ca77-4f01-8ed5-38b2d871984a)
+
+  
+- Adicionado gráfico de barras representando o 'Total geral do valor pago por Orgão'
+
+![Captura de tela 2023-12-06 223637](https://github.com/charlyane-sa/BDII-AV2/assets/61762801/a518fba3-7d13-48a7-8957-186d87d8980c)
+
+  
+- Adicionado gráfico de barras representando o 'Total geral do valor a pagar por Orgão'
+
+![Captura de tela 2023-12-06 223645](https://github.com/charlyane-sa/BDII-AV2/assets/61762801/0ec3a716-fae8-4696-a352-9841594423f5)
+
+  
+- Adicionado os filtros de 'Data processamento', 'Item Elemento', 'Item Categoria' e 'Item Grupo'
+
+![Captura de tela 2023-12-06 223754](https://github.com/charlyane-sa/BDII-AV2/assets/61762801/b4d99e3f-8448-47b9-bda7-543c406a5b1a)
+
+  
+- Adicionado botão de ação para limpar todos os filtros
+
+![Captura de tela 2023-12-06 223804](https://github.com/charlyane-sa/BDII-AV2/assets/61762801/e57f3417-3028-44c8-99f1-9817a9269392)
+
+  
+- Adicionado botão de acção para ir a página Home
+
+![Captura de tela 2023-12-06 223905](https://github.com/charlyane-sa/BDII-AV2/assets/61762801/9720ba91-ab0d-47f5-9fba-c9f15c22e3fa)
+
+
+
