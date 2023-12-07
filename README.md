@@ -809,19 +809,23 @@ A tabela Dim_Calendario será a dimensão de calendário no Data Warehouse, cont
 
 ```sql
 
+USE DW;
 CREATE TABLE Dim_Calendario (
     id_data INT PRIMARY KEY,
     data DATE,
+    data_completa DATETIME,
     dia INT,
     mes INT,
     ano INT,
     nome_mes NVARCHAR(20),
     nome_mes_abreviado NVARCHAR(5),
     nome_dia_semana NVARCHAR(15),
-    numero_dia_semana INT,
+	numero_dia_semana INT,
     trimestre INT,
     feriados NVARCHAR(50),
-    num_feriados BIT
+	num_feriados BIT,
+	bimestre INT,
+    
 );
 ```
 
@@ -831,16 +835,25 @@ A tabela será preenchida com dados de 2019 a 2022, incluindo informações como
 
 ```sql
 
--- Preencher a tabela com dados de 2019 a 2022
-
 DECLARE @data_inicio DATE = '2019-01-01';
 DECLARE @data_fim DATE = '2022-12-31';
+DECLARE @bimestre INT;
 
 WHILE @data_inicio <= @data_fim
 BEGIN
+SET @bimestre = 
+        CASE
+            WHEN MONTH(@data_inicio) IN (1, 2) THEN 1
+            WHEN MONTH(@data_inicio) IN (3, 4) THEN 2
+            WHEN MONTH(@data_inicio) IN (5, 6) THEN 3
+            WHEN MONTH(@data_inicio) IN (7, 8) THEN 4
+            WHEN MONTH(@data_inicio) IN (9, 10) THEN 5
+            WHEN MONTH(@data_inicio) IN (11, 12) THEN 6
+        END;
     INSERT INTO Dim_Calendario (
         id_data, 
         data, 
+		data_completa,
         dia, 
         mes, 
         ano, 
@@ -848,11 +861,13 @@ BEGIN
         nome_mes_abreviado, 
         nome_dia_semana, 
         trimestre, 
-        numero_dia_semana
+        numero_dia_semana,
+		bimestre
     )
     VALUES (
         CONVERT(INT, FORMAT(@data_inicio, 'yyyyMMdd')),
         @data_inicio,
+		CAST(@data_inicio AS DATETIME),
         DAY(@data_inicio),
         MONTH(@data_inicio),
         YEAR(@data_inicio),
@@ -860,7 +875,8 @@ BEGIN
         FORMAT(@data_inicio, 'MMM'),
         FORMAT(@data_inicio, 'dddd'),
         DATEPART(QUARTER, @data_inicio),
-        DATEPART(WEEKDAY, @data_inicio)
+        DATEPART(WEEKDAY, @data_inicio),
+		@bimestre
     );
 
     SET @data_inicio = DATEADD(DAY, 1, @data_inicio);
@@ -1225,9 +1241,9 @@ Passos realizados:
 ![Captura de tela 2023-12-06 223645](https://github.com/charlyane-sa/BDII-AV2/assets/61762801/0ec3a716-fae8-4696-a352-9841594423f5)
 
   
-- Adicionado os filtros de 'Data processamento', 'Item Elemento', 'Item Categoria' e 'Item Grupo'
+- Adicionado os filtros de 'Data processamento', 'Bimestre', 'Item Elemento', 'Item Categoria' e 'Item Grupo'
 
-![Captura de tela 2023-12-06 223754](https://github.com/charlyane-sa/BDII-AV2/assets/61762801/b4d99e3f-8448-47b9-bda7-543c406a5b1a)
+![Captura de tela 2023-12-06 230334](https://github.com/charlyane-sa/BDII-AV2/assets/61762801/03538353-f6ce-4840-92c5-ff06c1743f5c)
 
   
 - Adicionado botão de ação para limpar todos os filtros
