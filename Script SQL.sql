@@ -497,10 +497,6 @@ WHERE rn = 1;
 
 -- Fato execucao financeira
 
--- Fato execucao financeira
-
-DROP TABLE fato_execucao_financeira
-
 -- Criação da tabela fato_execucao_financeira
 USE DW;
 CREATE TABLE fato_execucao_financeira (
