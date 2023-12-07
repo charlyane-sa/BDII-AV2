@@ -820,11 +820,11 @@ CREATE TABLE Dim_Calendario (
     nome_mes NVARCHAR(20),
     nome_mes_abreviado NVARCHAR(5),
     nome_dia_semana NVARCHAR(15),
-	numero_dia_semana INT,
+    numero_dia_semana INT,
     trimestre INT,
     feriados NVARCHAR(50),
-	num_feriados BIT,
-	bimestre INT,
+    num_feriados BIT,
+    bimestre INT,
     
 );
 ```
@@ -1243,7 +1243,7 @@ Passos realizados:
   
 - Adicionado os filtros de 'Data processamento', 'Bimestre', 'Item Elemento', 'Item Categoria' e 'Item Grupo'
 
-![Captura de tela 2023-12-06 230334](https://github.com/charlyane-sa/BDII-AV2/assets/61762801/03538353-f6ce-4840-92c5-ff06c1743f5c)
+![Captura de tela 2023-12-06 230334](https://github.com/charlyane-sa/BDII-AV2/assets/61762801/8c61d90d-5d48-4545-a1a5-f6e1f9aefc1d)
 
   
 - Adicionado botão de ação para limpar todos os filtros
