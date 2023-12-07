@@ -1117,6 +1117,8 @@ Abaixo está reprensentado o modelo do DW criado.
 
 Foi utilizada a ferramenta Power BI para gerar a parte visual do dados criados.
 
+Link para o arquivo do Power BI: https://drive.google.com/file/d/1qHt_8CzV2-j3id1qGU01Q_iNTJEjcB0x/view?usp=sharing
+
 #### Conectar o Power BI ao Banco de dados
 
 1. Selecionar na 'Página Inicial' a opção 'SQL Server'
