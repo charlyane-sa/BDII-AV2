@@ -4,6 +4,12 @@
 
 O objetivo deste projeto é realizar uma análise aprofundada do banco de dados denominado 'Execução Financeira V4' e, a partir desses dados, construir um Data Warehouse (DW) que permita uma visão consolidada e otimizada para análise das informações da base de dados. Posteriormente, será desenvolvida uma visualização no Power BI com base no DW construído, proporcionando insights sobre os dados analisados.
 
+## Equipe
+
+- Charlyane Araújo ([@charlyane-sa](https://github.com/charlyane-sa))
+- Matheus Nascimento ([@mtlem](https://github.com/mtlem)) 
+- Hugo Júnior ([@hugojunior](https://github.com/hugojunior))
+
 ## Fonte de dados
 
 Base: [Execução Financeira V4](https://drive.google.com/file/d/1h-6UtjhyjqG1TqWoiwOzZPCb_qS1n0Bp/view?usp=sharing)
