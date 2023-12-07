@@ -242,11 +242,9 @@ WHERE rn = 1;
 
 -- Dimensao Credor
 
--- Dimensao Credor
-
 USE DW;
 
--- Crie a tabela novamente
+-- Criação da tabela dim_Credor
 CREATE TABLE dim_Credor (
     codigo BIGINT PRIMARY KEY,
     descricao VARCHAR(MAX)
